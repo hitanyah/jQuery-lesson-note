@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex6</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <form action="">
+                <div class="form-row">
+                    <div class="form-group mr-3">
+                        <select name="city" id="city" class="form-control">
+                            <option value="0">基隆</option>
+                            <option value="1">台北</option>
+                            <option value="2">新北</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="district" id="district" class="form-control">
+                            <option value="0">七堵區</option>
+                            <option value="1">中正區</option>
+                            <option value="2">暖暖區</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script>
+        let districtObj = [
+            ['七堵', '中正', '暖暖'],
+            ['中正', '大安', '信義'],
+            ['蘆洲', '三重', '新店', '新店2', '新店3'],
+        ];
+
+        // 方法一
+        // $('#city').change(function () {
+        //     // 抓到點選後的陣列值
+        //     console.log('Obj:', districtObj[ $(this).val() ] );
+        //     // 抓到 option 的 value
+        //     console.log('option value:', $('#district option') );
+
+        //     // .eq()- 選取第 n 個，可以直接抓到 value
+        //     for( i = 0; i < districtObj.length; i++ ){
+        //         $('#district option').eq(i)
+        //         .text( districtObj[ $(this).val() ][i] );
+        //     }
+        // });
+
+
+        // 如果有不同數量的選項 用append?
+        $('#city').change(function () {
+            // 抓到點選後的陣列值
+            console.log('Obj:', districtObj[ $(this).val() ] );
+            // 抓到 option 的 value
+            console.log('option value:', $('#district option') );
+
+            console.log(districtObj[$(this).val()].length);
+
+            // .eq()- 選取第 n 個，可以直接抓到 value
+            for( i = 0; i < districtObj[$(this).val()].length; i++ ){
+                $('#district option').eq(i)
+                .text( districtObj[ $(this).val() ][i] );
+                
+                let moreOption = districtObj[$(this).val()][i];
+
+                if(i>2){
+                    console.log('Lets add');
+                    $('#district').append(
+                    $('<option value="' + i + '">' + moreOption + '</option>')
+                    );
+                }
+            }
+        });
+
+
+
+
+        // 方法二：用each
+        // $('#city').change(function(){
+        //     const cityValue = $(this).val();
+        //     // 這裡的 this 是“市”
+        //     console.log( 'each' , $(this).text() );
+        //     $('#district option').each(function(){
+        //         // 這裡的 this 是"區"
+        //         $(this).text( districtObj[cityValue][ $(this).val() ] + '區');
+        //     })
+        // })
+
+
+
+    </script>
+</body>
+
+</html>

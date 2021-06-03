@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+    <title>練習 9 : 利用按鈕切換文字大小</title>
+
+    <style>
+        .fontS{
+            font-size: 0.8rem;
+        }
+        .fontM{
+            font-size: 1rem;
+        }
+        .fontL{
+            font-size: 1.2rem;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container ">
+        <div class="d-flex justify-content-end">
+            <div class="btn-group">
+                <botton id="btn-s" class="btn btn-info">S</botton>
+                <botton id="btn-m" class="btn btn-info active">M</botton>
+                <botton id="btn-l" class="btn btn-info">L</botton>
+            </div>
+        </div>
+
+        <h2>Hello Lorem</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur necessitatibus magnam laudantium. Eaque dignissimos commodi doloremque voluptatem, eos, aperiam quaerat ipsa quos aut quia sunt, suscipit asperiores accusamus officia magni!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur necessitatibus magnam laudantium. Eaque dignissimos commodi doloremque voluptatem, eos, aperiam quaerat ipsa quos aut quia sunt, suscipit asperiores accusamus officia magni!</p>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+    <script>
+        $('#btn-s').click(function(){
+            console.log('Hi btn-s');
+            // $('#btn-m , #btn-l').removeClass('active');
+            $('.btn').removeClass('active');
+            // $('#btn-l').removeClass('active')
+            $('#btn-s').addClass('active');
+            // $('p').removeClass('fontM fontL').addClass('fontS');
+            $('p').removeClass().addClass('fontS');
+        })
+        $('#btn-m').click(function(){
+            console.log('Hi btn-m');
+            $('#btn-s , #btn-l').removeClass('active');
+            // $('#btn-l').removeClass('active')
+            $('#btn-m').addClass('active');
+            $('p').removeClass().addClass('fontM');
+        })
+
+        $('#btn-l').click(function(){
+            console.log('Hi btn-m');
+            $('#btn-s , #btn-m').removeClass('active');
+            // $('#btn-m').removeClass('active')
+            $('#btn-l').addClass('active');
+            $('p').removeClass().addClass('fontL');
+        })
+
+    </script>
+    
+</body>
+</html>

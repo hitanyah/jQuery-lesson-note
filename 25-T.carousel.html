@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>carousel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* ul {
+            list-style: none;
+            padding: 0;
+        } */
+
+        .wrap {
+            max-width: 800px;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        ul.img-wrap {
+            width: 5600px;
+            display: flex;
+            /* transform: translateX(-800px); */
+            height: 100%;
+            transition: .5s;
+        }
+
+        li {
+            flex-shrink: 1;
+            /* flex-basis: 0;
+            flex-grow: 1; */
+            overflow: hidden;
+            height: 100%;
+        }
+
+        li img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-dots {
+            /* width: 100%; */
+            display: flex;
+            /* justify-content: center; */
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .slider-dots li {
+            width: 40px;
+            height: 10px;
+            border: 2px solid #fff;
+            margin: 0 4px;
+        }
+
+        .left-arrow,
+        .right-arrow {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            /* background-color: #ccc; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-arrow {
+            left: 0;
+        }
+
+        .right-arrow {
+            right: 0;
+        }
+
+        .fas {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrap mt-5">
+        <ul class="list-unstyled img-wrap">
+            <li><img src="./img/slide5.jpg" alt=""></li>
+            <li><img src="./img/slide1.jpg" alt=""></li>
+            <li><img src="./img/slide2.jpg" alt=""></li>
+            <li><img src="./img/slide3.jpg" alt=""></li>
+            <li><img src="./img/slide4.jpg" alt=""></li>
+            <li><img src="./img/slide5.jpg" alt=""></li>
+            <li><img src="./img/slide1.jpg" alt=""></li>
+        </ul>
+
+
+        <ul class="list-unstyled slider-dots">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+        <div class="left-arrow">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="right-arrow">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script>
+        let nowPage = 0;
+        let wrapWidth = $('.wrap').width();
+        $('ul.img-wrap').width($('.wrap').width() * 7);
+
+        $(window).resize(function () {
+            wrapWidth = $('.wrap').width();
+            $('ul.img-wrap').width($('.wrap').width() * 7);
+        })
+
+        $('.slider-dots li').first().css('background', '#fff');
+
+        $('.slider-dots li').hover(function () {
+            console.log('hi ', $(this).index());
+            nowPage = $(this).index();
+
+            changePage();
+        });
+
+        $('.right-arrow').click(function () {
+            // console.log('left-arrow');
+            if (nowPage >= 5) return;
+            nowPage++;
+            changePage();
+        })
+
+        $('.left-arrow').click(function () {
+            // console.log('left-arrow');
+            if (nowPage <= -1) return;
+            nowPage--;
+            changePage();
+        })
+
+        let myInterval;
+        startMyInterval();
+
+        function startMyInterval() {
+            myInterval = setInterval(() => {
+                if (nowPage < 4) {
+                    nowPage++;
+                }
+                else {
+                    nowPage = 0;
+                }
+
+                changePage();
+            }, 1000);
+        }
+
+        function changePage() {
+            const moveX = -1 * wrapWidth * nowPage;
+            $('.img-wrap').css('transition', '0.5s').css('transform', `translateX(${moveX - wrapWidth}px)`);
+
+            // 被 hover 的 li 自己變白色，其他人變無背景。
+            $('.slider-dots li').eq(nowPage).css('background', '#fff').siblings().css('background', 'none');
+        }
+
+        function changePageQuietly() {
+            const moveX = -1 * wrapWidth * nowPage;
+            $('.img-wrap').css('transition', 'none').css('transform', `translateX(${moveX - wrapWidth}px)`);
+
+            // 被 hover 的 li 自己變白色，其他人變無背景。
+            $('.slider-dots li').eq(nowPage).css('background', '#fff').siblings().css('background', 'none');
+        }
+
+        $('.wrap').mouseenter(function () {
+            clearInterval(myInterval);
+        })
+
+        $('.wrap').mouseleave(function () {
+            startMyInterval();
+        });
+
+        $('.img-wrap').on('transitionend', function () {
+            // console.log('transitionend');
+
+            // if (nowPage <= 4) return;
+
+            if (nowPage >= 5) {
+                nowPage = 0;
+                changePageQuietly();
+            }
+
+            if (nowPage <= -1) {
+                nowPage = 4;
+                changePageQuietly();
+            }
+
+        });
+
+
+
+    </script>
+</body>
+
+</html>
